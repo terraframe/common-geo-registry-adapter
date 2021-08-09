@@ -49,12 +49,15 @@ public class ValueOverTimeDTO
 
   private Date endDate;
   
+  private String oid;
+  
   private Attribute attribute;
 
   private ValueOverTimeCollectionDTO collection;
   
-  public ValueOverTimeDTO(Date startDate, Date endDate, ValueOverTimeCollectionDTO collection)
+  public ValueOverTimeDTO(String oid, Date startDate, Date endDate, ValueOverTimeCollectionDTO collection)
   {
+    this.oid = oid;
     this.collection = collection;
     this.attribute = Attribute.attributeFactory(collection.getAttributeType());
     
@@ -108,6 +111,7 @@ public class ValueOverTimeDTO
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     format.setTimeZone(TimeZone.getTimeZone("GMT"));
     
+    ret.addProperty("oid", this.getOid());
     ret.addProperty("startDate", format.format(this.getStartDate()));
     ret.addProperty("endDate", format.format(this.getEndDate()));
     
@@ -125,10 +129,16 @@ public class ValueOverTimeDTO
     format.setTimeZone(TimeZone.getTimeZone("GMT"));
     try
     {
+      String oid = null;
+      if (jo.has("oid"))
+      {
+        oid = jo.get("oid").getAsString();
+      }
+      
       Date startDate = format.parse(jo.get("startDate").getAsString());
       Date endDate = format.parse(jo.get("endDate").getAsString());
       
-      ValueOverTimeDTO ret = new ValueOverTimeDTO(startDate, endDate, collection);
+      ValueOverTimeDTO ret = new ValueOverTimeDTO(oid, startDate, endDate, collection);
       
       ret.attribute.fromJSON(jo.get("value"), registry);
       
@@ -194,6 +204,16 @@ public class ValueOverTimeDTO
   public void setValue(Object value)
   {
     this.attribute.setValue(value);
+  }
+  
+  public String getOid()
+  {
+    return oid;
+  }
+
+  public void setOid(String oid)
+  {
+    this.oid = oid;
   }
 
   public Attribute getAttribute()
