@@ -103,7 +103,7 @@ public class ValueOverTimeCollectionDTO implements Collection<ValueOverTimeDTO>
     
     if (vot != null) { return vot; }
     
-    vot = new ValueOverTimeDTO(date, null, this);
+    vot = new ValueOverTimeDTO(null, date, null, this);
     this.add(vot);
     return vot;
   }
@@ -134,7 +134,7 @@ public class ValueOverTimeCollectionDTO implements Collection<ValueOverTimeDTO>
     
     if (attr != null) { return attr; }
     
-    ValueOverTimeDTO vot = new ValueOverTimeDTO(date, null, this);
+    ValueOverTimeDTO vot = new ValueOverTimeDTO(null, date, null, this);
     this.add(vot);
     return vot.getAttribute();
   }
