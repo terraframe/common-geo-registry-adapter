@@ -196,48 +196,6 @@ public abstract class AttributeType implements Serializable
     // AttributeType
   }
 
-  public static boolean isDefault(String _name)
-  {
-    boolean _isDefault = false;
-    if (DefaultAttribute.UID.getName().equals(_name))
-    {
-      _isDefault = DefaultAttribute.UID.getIsDefault();
-    }
-    else if (DefaultAttribute.CODE.getName().equals(_name))
-    {
-      _isDefault = DefaultAttribute.CODE.getIsDefault();
-    }
-    else if (DefaultAttribute.DISPLAY_LABEL.getName().equals(_name))
-    {
-      _isDefault = DefaultAttribute.DISPLAY_LABEL.getIsDefault();
-    }
-    else if (DefaultAttribute.TYPE.getName().equals(_name))
-    {
-      _isDefault = DefaultAttribute.TYPE.getIsDefault();
-    }
-    else if (DefaultAttribute.STATUS.getName().equals(_name))
-    {
-      _isDefault = DefaultAttribute.STATUS.getIsDefault();
-    }
-    else if (DefaultAttribute.SEQUENCE.getName().equals(_name))
-    {
-      _isDefault = DefaultAttribute.SEQUENCE.getIsDefault();
-    }
-    else if (DefaultAttribute.CREATE_DATE.getName().equals(_name))
-    {
-      _isDefault = DefaultAttribute.CREATE_DATE.getIsDefault();
-    }
-    else if (DefaultAttribute.LAST_UPDATE_DATE.getName().equals(_name))
-    {
-      _isDefault = DefaultAttribute.LAST_UPDATE_DATE.getIsDefault();
-    }
-    else if (DefaultAttribute.GEOMETRY.getName().equals(_name))
-    {
-      _isDefault = DefaultAttribute.GEOMETRY.getIsDefault();
-    }
-    return _isDefault;
-  }
-
   public final JsonObject toJSON()
   {
     return this.toJSON(new DefaultSerializer());
@@ -289,8 +247,9 @@ public abstract class AttributeType implements Serializable
   public static AttributeType factory(String _name, LocalizedValue _label, LocalizedValue _description, String _type, boolean _required, boolean _unique, boolean _isChange)
   {
     AttributeType attributeType = null;
-
-    boolean _isDefault = isDefault(_name);
+    
+    DefaultAttribute defaultAttr = DefaultAttribute.getByAttributeName(_name);
+    boolean _isDefault = defaultAttr == null ? false : defaultAttr.getIsDefault();
 
     if (_type.equals(AttributeCharacterType.TYPE))
     {

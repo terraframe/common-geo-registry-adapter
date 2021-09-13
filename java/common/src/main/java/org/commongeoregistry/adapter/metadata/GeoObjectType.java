@@ -25,9 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.commongeoregistry.adapter.Optional;
 import org.commongeoregistry.adapter.RegistryAdapter;
-import org.commongeoregistry.adapter.Term;
 import org.commongeoregistry.adapter.constants.DefaultAttribute;
-import org.commongeoregistry.adapter.constants.DefaultTerms;
 import org.commongeoregistry.adapter.constants.GeometryType;
 import org.commongeoregistry.adapter.dataaccess.GeoObject;
 import org.commongeoregistry.adapter.dataaccess.LocalizedValue;
@@ -477,6 +475,9 @@ public class GeoObjectType implements Serializable
 
     AttributeCharacterType code = (AttributeCharacterType) DefaultAttribute.CODE.createAttributeType();
     defaultAttributeMap.put(DefaultAttribute.CODE.getName(), code);
+    
+    AttributeBooleanType invalid = (AttributeBooleanType) DefaultAttribute.INVALID.createAttributeType();
+    defaultAttributeMap.put(DefaultAttribute.INVALID.getName(), invalid);
 
     AttributeLocalType displayLabel = (AttributeLocalType) DefaultAttribute.DISPLAY_LABEL.createAttributeType();
     defaultAttributeMap.put(DefaultAttribute.DISPLAY_LABEL.getName(), displayLabel);
@@ -493,10 +494,8 @@ public class GeoObjectType implements Serializable
     AttributeDateType updatedDate = (AttributeDateType) DefaultAttribute.LAST_UPDATE_DATE.createAttributeType();
     defaultAttributeMap.put(DefaultAttribute.LAST_UPDATE_DATE.getName(), updatedDate);
 
-    AttributeTermType status = (AttributeTermType) DefaultAttribute.STATUS.createAttributeType();
-    Term rootStatusTerm = registry.getMetadataCache().getTerm(DefaultTerms.GeoObjectStatusTerm.ROOT.code).get();
-    status.setRootTerm(rootStatusTerm);
-    defaultAttributeMap.put(DefaultAttribute.STATUS.getName(), status);
+    AttributeBooleanType exists = (AttributeBooleanType) DefaultAttribute.EXISTS.createAttributeType();
+    defaultAttributeMap.put(DefaultAttribute.EXISTS.getName(), exists);
 
     // AttributeCharacterType organization = (AttributeCharacterType)
     // DefaultAttribute.ORGANIZATION.createAttributeType();

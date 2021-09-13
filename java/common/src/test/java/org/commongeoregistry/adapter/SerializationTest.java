@@ -29,7 +29,6 @@ import org.commongeoregistry.adapter.action.geoobject.CreateGeoObjectActionDTO;
 import org.commongeoregistry.adapter.action.geoobject.UpdateGeoObjectActionDTO;
 import org.commongeoregistry.adapter.action.tree.AddChildActionDTO;
 import org.commongeoregistry.adapter.action.tree.RemoveChildActionDTO;
-import org.commongeoregistry.adapter.constants.DefaultTerms;
 import org.commongeoregistry.adapter.constants.GeometryType;
 import org.commongeoregistry.adapter.dataaccess.ChildTreeNode;
 import org.commongeoregistry.adapter.dataaccess.GeoObject;
@@ -71,7 +70,7 @@ public class SerializationTest
     geoObject.setCode("Colorado");
     geoObject.setUid("CO");
     geoObject.setDisplayLabel(new LocalizedValue("Colorado Display Label"), null, null);
-    geoObject.setStatus(DefaultTerms.GeoObjectStatusTerm.ACTIVE.code, null, null);
+    geoObject.setExists(true, null, null);
 
     String sJson = geoObject.toJSON().toString();
     GeoObjectOverTime geoObject2 = GeoObjectOverTime.fromJSON(registry, sJson);
@@ -82,7 +81,7 @@ public class SerializationTest
     Assert.assertEquals("CO", geoObject2.getUid());
     Assert.assertEquals("Colorado Display Label", geoObject2.getDisplayLabel(null).getValue());
     Assert.assertEquals("Colorado Display Label", geoObject2.getDisplayLabel(null).getValue(LocalizedValue.DEFAULT_LOCALE));
-    Assert.assertEquals(geoObject.getStatus(null).getCode(), geoObject2.getStatus(null).getCode());
+    Assert.assertEquals(geoObject.getExists(null), geoObject2.getExists(null));
   }
 
   @Test
@@ -131,7 +130,7 @@ public class SerializationTest
     Assert.assertEquals("CO", geoObject2.getUid());
     Assert.assertEquals("Colorado Display Label", geoObject2.getLocalizedDisplayLabel());
     Assert.assertEquals("Colorado Display Label", geoObject2.getDisplayLabel().getValue(LocalizedValue.DEFAULT_LOCALE));
-    Assert.assertEquals(geoObject.getStatus().getCode(), geoObject2.getStatus().getCode());
+    Assert.assertEquals(geoObject.getExists(), geoObject2.getExists());
   }
 
   @Test
@@ -305,13 +304,17 @@ public class SerializationTest
     RegistryAdapterServer registryServerInterface = new RegistryAdapterServer(new MockIdService());
 
     GeoObjectType state = MetadataFactory.newGeoObjectType("State", GeometryType.POLYGON, new LocalizedValue("State"), new LocalizedValue("State"), true, null, registryServerInterface);
+    
+    Term testRoot = MetadataFactory.newTerm("testRoot", new LocalizedValue("testRoot"), new LocalizedValue("testRoot"), registryServerInterface);
+    Term testChild = MetadataFactory.newTerm("testChild", new LocalizedValue("testChild"), new LocalizedValue("testChild"), registryServerInterface);
+    testRoot.addChild(testChild);
 
     AttributeType testChar = AttributeType.factory("testChar", new LocalizedValue("testCharLocalName"), new LocalizedValue("testCharLocalDescrip"), AttributeCharacterType.TYPE, false, false, false);
     AttributeType testDate = AttributeType.factory("testDate", new LocalizedValue("testDateLocalName"), new LocalizedValue("testDateLocalDescrip"), AttributeDateType.TYPE, false, false, false);
     AttributeType testInteger = AttributeType.factory("testInteger", new LocalizedValue("testIntegerLocalName"), new LocalizedValue("testIntegerLocalDescrip"), AttributeIntegerType.TYPE, false, false, false);
     AttributeType testBoolean = AttributeType.factory("testBoolean", new LocalizedValue("testBooleanName"), new LocalizedValue("testBooleanDescrip"), AttributeBooleanType.TYPE, false, false, false);
     AttributeTermType testTerm = (AttributeTermType) AttributeType.factory("testTerm", new LocalizedValue("testTermLocalName"), new LocalizedValue("testTermLocalDescrip"), AttributeTermType.TYPE, false, false, false);
-    testTerm.setRootTerm(registryServerInterface.getMetadataCache().getTerm(DefaultTerms.GeoObjectStatusTerm.ROOT.code).get());
+    testTerm.setRootTerm(testRoot);
 
     state.addAttribute(testChar);
     state.addAttribute(testDate);
@@ -331,7 +334,7 @@ public class SerializationTest
     geoObject.setValue("testDate", new Date());
     geoObject.setValue("testInteger", 3L);
     geoObject.setValue("testBoolean", false);
-    geoObject.setValue("testTerm", registryServerInterface.getMetadataCache().getTerm(DefaultTerms.GeoObjectStatusTerm.PENDING.code).get());
+    geoObject.setValue("testTerm", testChild);
 
     String sJson = geoObject.toJSON().toString();
     GeoObject geoObject2 = GeoObject.fromJSON(registryServerInterface, sJson);
@@ -352,9 +355,13 @@ public class SerializationTest
     RegistryAdapterServer registryServerInterface = new RegistryAdapterServer(new MockIdService());
 
     GeoObjectType state = MetadataFactory.newGeoObjectType("State", GeometryType.POLYGON, new LocalizedValue("State"), new LocalizedValue("State"), true, null, registryServerInterface);
+    
+    Term testRoot = MetadataFactory.newTerm("testRoot", new LocalizedValue("testRoot"), new LocalizedValue("testRoot"), registryServerInterface);
+    Term testChild = MetadataFactory.newTerm("testChild", new LocalizedValue("testChild"), new LocalizedValue("testChild"), registryServerInterface);
+    testRoot.addChild(testChild);
 
     AttributeTermType testTerm = (AttributeTermType) AttributeType.factory("testTerm", new LocalizedValue("testTermLocalName"), new LocalizedValue("testTermLocalDescrip"), AttributeTermType.TYPE, false, false, false);
-    testTerm.setRootTerm(registryServerInterface.getMetadataCache().getTerm(DefaultTerms.GeoObjectStatusTerm.ROOT.code).get());
+    testTerm.setRootTerm(testRoot);
 
     state.addAttribute(testTerm);
 
