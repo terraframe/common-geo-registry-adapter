@@ -50,6 +50,8 @@ public class GeoObject implements Serializable
   public static final String UID              = DefaultAttribute.UID.getName();
 
   public static final String CODE             = DefaultAttribute.CODE.getName();
+  
+  public static final String INVALID         = DefaultAttribute.INVALID.getName();
 
   public static final String DISPLAY_LABEL    = DefaultAttribute.DISPLAY_LABEL.getName();
 
@@ -277,6 +279,26 @@ public class GeoObject implements Serializable
   {
     return (String) this.attributeMap.get(CODE).getValue();
   }
+  
+  /**
+   * Sets the invalid of this {@link GeoObject}.
+   * 
+   * @param code
+   */
+  public void setInvalid(Boolean invalid)
+  {
+    this.attributeMap.get(INVALID).setValue(invalid);
+  }
+
+  /**
+   * Returns the invalid of this {@link GeoObject}
+   * 
+   * @return the invalid of this {@link GeoObject}
+   */
+  public Boolean getInvalid()
+  {
+    return (Boolean) this.attributeMap.get(INVALID).getValue();
+  }
 
   /**
    * Sets the UID of this {@link GeoObject}.
@@ -336,64 +358,23 @@ public class GeoObject implements Serializable
   }
 
   /**
-   * Returns the status code
+   * Returns exists value
    * 
    * @return
    */
-  public Term getStatus()
+  public Boolean getExists()
   {
-    Term term = null;
-
-    Optional<AttributeType> optionalAttributeType = this.getType().getAttribute(DefaultAttribute.STATUS.getName());
-
-    if (optionalAttributeType.isPresent())
-    {
-      AttributeTermType attributeTermType = (AttributeTermType) optionalAttributeType.get();
-
-      Object value = this.getValue(DefaultAttribute.STATUS.getName());
-      
-      if (value == null)
-      {
-        return null;
-      }
-      
-      @SuppressWarnings("unchecked")
-      Iterator<String> it = (Iterator<String>) value;
-      
-      if (!it.hasNext())
-      {
-        return null;
-      }
-      
-      String termCode = it.next();
-      Optional<Term> optionalTerm = attributeTermType.getTermByCode(termCode);
-
-      if (optionalTerm.isPresent())
-      {
-        term = optionalTerm.get();
-      }
-    }
-
-    return term;
+    return (Boolean) this.getAttribute(DefaultAttribute.EXISTS.getName()).getValue();
   }
 
-  public void setStatus(Term status)
+  /**
+   * Sets exists value
+   * 
+   * @return
+   */
+  public void setExists(Boolean exists)
   {
-    Attribute attr = this.getAttribute(DefaultAttribute.STATUS.getName());
-    
-    if (status == null)
-    {
-      attr.setValue(null);
-    }
-    else
-    {
-      attr.setValue(status.getCode());
-    }
-  }
-
-  public void setStatus(String statusCode)
-  {
-    this.getAttribute(DefaultAttribute.STATUS.getName()).setValue(statusCode);
+    this.getAttribute(DefaultAttribute.EXISTS.getName()).setValue(exists);
   }
 
   /**

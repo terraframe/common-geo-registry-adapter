@@ -18,12 +18,8 @@
  */
 package org.commongeoregistry.adapter;
 
-import java.util.List;
-
 import org.commongeoregistry.adapter.constants.DefaultAttribute;
-import org.commongeoregistry.adapter.constants.DefaultTerms.GeoObjectStatusTerm;
 import org.commongeoregistry.adapter.dataaccess.GeoObject;
-import org.commongeoregistry.adapter.metadata.AttributeTermType;
 import org.commongeoregistry.adapter.metadata.AttributeType;
 import org.commongeoregistry.adapter.metadata.GeoObjectType;
 import org.junit.AfterClass;
@@ -89,15 +85,6 @@ public class RegistryServerInterfaceTest
       AttributeType attributeType = province.getAttribute(defaultAttribute.getName()).get();
       
       Assert.assertNotNull(defaultAttribute.getName()+"  was not defined as a default attribute", attributeType);
-      
-      if (defaultAttribute.getName().equals(DefaultAttribute.STATUS.getName()))
-      {
-        AttributeTermType statusAttribute = (AttributeTermType)attributeType;
-        
-        List<Term> terms = statusAttribute.getTerms();
-        
-        Assert.assertTrue(GeoObjectStatusTerm.values().length - 1 == terms.size());        
-      }
     }
   }
   

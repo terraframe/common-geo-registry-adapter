@@ -108,8 +108,7 @@ public class ValueOverTimeDTO
   {
     JsonObject ret = new JsonObject();
     
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    format.setTimeZone(TimeZone.getTimeZone("GMT"));
+    SimpleDateFormat format = getTimeFormatter();
     
     ret.addProperty("oid", this.getOid());
     ret.addProperty("startDate", format.format(this.getStartDate()));
@@ -121,12 +120,19 @@ public class ValueOverTimeDTO
     return ret;
   }
   
+  public static SimpleDateFormat getTimeFormatter()
+  {
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    format.setTimeZone(TimeZone.getTimeZone("GMT"));
+    return format;
+  }
+  
   public static ValueOverTimeDTO fromJSON(String json, ValueOverTimeCollectionDTO collection, RegistryAdapter registry)
   {
     JsonObject jo = new JsonParser().parse(json).getAsJsonObject();
     
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    format.setTimeZone(TimeZone.getTimeZone("GMT"));
+    SimpleDateFormat format = getTimeFormatter();
+    
     try
     {
       String oid = null;

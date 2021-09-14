@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.commongeoregistry.adapter.Optional;
 import org.commongeoregistry.adapter.RegistryAdapter;
 import org.commongeoregistry.adapter.Term;
-import org.commongeoregistry.adapter.constants.DefaultTerms;
 import org.commongeoregistry.adapter.dataaccess.GeoObject;
 
 /**
@@ -64,8 +63,6 @@ public class MetadataCache implements Serializable
     this.geoGeoObjectTypeMap = new ConcurrentHashMap<String, GeoObjectType>();
     this.hierarchyTypeMap = new ConcurrentHashMap<String, HierarchyType>();
     this.termMap = new ConcurrentHashMap<String, Term>();
-
-    DefaultTerms.buildGeoObjectStatusTree(adapter);
   }
   
   public void addTerm(Term term) 

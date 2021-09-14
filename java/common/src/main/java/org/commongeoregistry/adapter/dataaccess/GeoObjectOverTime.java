@@ -332,6 +332,26 @@ public class GeoObjectOverTime implements Serializable
   }
   
   /**
+   * Sets the invalid of this {@link GeoObject}.
+   * 
+   * @param code
+   */
+  public void setInvalid(Boolean invalid)
+  {
+    this.attributeMap.get(DefaultAttribute.INVALID.getName()).setValue(invalid);
+  }
+
+  /**
+   * Returns the invalid of this {@link GeoObject}
+   * 
+   * @return the invalid of this {@link GeoObject}
+   */
+  public Boolean getInvalid()
+  {
+    return (Boolean) this.attributeMap.get(DefaultAttribute.INVALID.getName()).getValue();
+  }
+  
+  /**
    * Sets the display label of this {@link GeoObject}. If endDate is null then it is assumed to
    * expand as far as possible into the future. If startDate is null then it will grab the latest
    * available value and set it. If one does not exist one will be created.
@@ -381,42 +401,14 @@ public class GeoObjectOverTime implements Serializable
    * 
    * @return
    */
-  public Term getStatus(Date date)
+  public Boolean getExists(Date date)
   {
-    Term term = null;
-
-    Optional<AttributeType> optionalAttributeType = this.getType().getAttribute(DefaultAttribute.STATUS.getName());
-
-    if (optionalAttributeType.isPresent())
-    {
-      AttributeTermType attributeTermType = (AttributeTermType) optionalAttributeType.get();
-
-      @SuppressWarnings("unchecked")
-      Iterator<String> statusIt = ( (Iterator<String>) this.getValue(DefaultAttribute.STATUS.getName(), date) );
-      
-      if (statusIt.hasNext())
-      {
-        String termCode = statusIt.next();
-        Optional<Term> optionalTerm = attributeTermType.getTermByCode(termCode);
-  
-        if (optionalTerm.isPresent())
-        {
-          term = optionalTerm.get();
-        }
-      }
-    }
-
-    return term;
+    return (Boolean) this.getValue(DefaultAttribute.EXISTS.getName(), date);
   }
 
-  public void setStatus(Term status, Date startDate, Date endDate)
+  public void setExists(Boolean exists, Date startDate, Date endDate)
   {
-    this.setValue(DefaultAttribute.STATUS.getName(), status.getCode(), startDate, endDate);
-  }
-
-  public void setStatus(String statusCode, Date startDate, Date endDate)
-  {
-    this.setValue(DefaultAttribute.STATUS.getName(), statusCode, startDate, endDate);
+    this.setValue(DefaultAttribute.EXISTS.getName(), exists, startDate, endDate);
   }
   
   /**
