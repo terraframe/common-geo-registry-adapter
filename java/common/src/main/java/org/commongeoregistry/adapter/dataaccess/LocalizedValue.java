@@ -119,6 +119,18 @@ public class LocalizedValue
   {
     return this.localeValues;
   }
+  
+  /**
+   * Populates the locales in this object with a map where the key is (locale.toString())
+   * and the value is the localized value for that locale. We will NOT set the 'localizedValue'
+   * as part of this. If you want to do that, you should do it manually.
+   *  
+   * @param localeMap
+   */
+  public void setLocaleMap(Map<String, String> localeMap)
+  {
+    this.localeValues = localeMap;
+  }
 
   public JsonObject toJSON()
   {
