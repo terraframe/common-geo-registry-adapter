@@ -3,7 +3,7 @@
 	
 	<groupId>com.cgr.adapter</groupId>
 	<artifactId>cgradapter</artifactId>
-	<version>0.17.5</version>
+	<version>0.17.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	
 	<name>cgradapter</name>
@@ -42,7 +42,7 @@
     <connection>scm:git:ssh://git@github.com/terraframe/common-geo-registry-adapter</connection>
     <developerConnection>scm:git:ssh://git@github.com/terraframe/common-geo-registry-adapter</developerConnection>
     <url>scm:git:ssh://git@github.com/terraframe/common-geo-registry-adapter</url>
-    <tag>0.17.5</tag>
+    <tag>0.6.0</tag>
   </scm>
   
   <licenses>
