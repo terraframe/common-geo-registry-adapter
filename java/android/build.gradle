@@ -22,7 +22,7 @@ allprojects {
         jcenter()
         mavenLocal()
         maven {
-            url 'https://nexus.terraframe.com/content/repositories/releases'
+            url 'https://dl.cloudsmith.io/public/terraframe/geoprism-registry/maven/'
         }
         maven {
             url 'http://download.osgeo.org/webdav/geotools'
