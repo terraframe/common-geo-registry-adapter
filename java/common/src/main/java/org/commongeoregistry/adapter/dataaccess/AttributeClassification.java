@@ -3,18 +3,19 @@
  *
  * This file is part of Common Geo Registry Adapter(tm).
  *
- * Common Geo Registry Adapter(tm) is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
+ * Common Geo Registry Adapter(tm) is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
  *
- * Common Geo Registry Adapter(tm) is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * Common Geo Registry Adapter(tm) is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with Common Geo Registry Adapter(tm).  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Common Geo Registry Adapter(tm). If not, see
+ * <http://www.gnu.org/licenses/>.
  */
 package org.commongeoregistry.adapter.dataaccess;
 
@@ -24,7 +25,7 @@ import org.commongeoregistry.adapter.metadata.AttributeClassificationType;
 import org.commongeoregistry.adapter.metadata.CustomSerializer;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonObject;
 
 public class AttributeClassification extends Attribute
 {
@@ -34,6 +35,8 @@ public class AttributeClassification extends Attribute
   private static final long serialVersionUID = -7912192621951141119L;
 
   private String            code;
+
+  private LocalizedValue    label;
 
   public AttributeClassification(String name)
   {
@@ -53,7 +56,7 @@ public class AttributeClassification extends Attribute
     }
     else
     {
-      this.setTerm((String) value);
+      this.setCode((String) value);
     }
   }
 
@@ -63,12 +66,18 @@ public class AttributeClassification extends Attribute
    */
   public void setValue(Term term)
   {
-    this.setTerm(term.getCode());
+    this.setCode(term.getCode());
+    this.setLabel(term.getLabel());
   }
 
-  public void setTerm(String termCode)
+  public void setCode(String code)
   {
-    this.code = termCode;
+    this.code = code;
+  }
+
+  public void setLabel(LocalizedValue label)
+  {
+    this.label = label;
   }
 
   @Override
@@ -80,7 +89,15 @@ public class AttributeClassification extends Attribute
   @Override
   public JsonElement toJSON(CustomSerializer serializer)
   {
-    return new JsonPrimitive(this.code);
+    JsonObject object = new JsonObject();
+    object.addProperty("code", this.code);
+
+    if (this.label != null)
+    {
+      object.add("label", this.label.toJSON(serializer));
+    }
+
+    return object;
   }
 
   @Override
@@ -90,7 +107,19 @@ public class AttributeClassification extends Attribute
     {
       String termCode = jValue.getAsString();
 
-      this.setTerm(termCode);
+      this.setCode(termCode);
+    }
+    else if (jValue.isJsonObject())
+    {
+      JsonObject object = jValue.getAsJsonObject();
+      String termCode = object.get("code").getAsString();
+
+      this.setCode(termCode);
+
+      if (object.has("label"))
+      {
+        this.setLabel(LocalizedValue.fromJSON(object.get("label").getAsJsonObject()));
+      }
     }
   }
 
