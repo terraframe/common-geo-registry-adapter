@@ -3,18 +3,19 @@
  *
  * This file is part of Common Geo Registry Adapter(tm).
  *
- * Common Geo Registry Adapter(tm) is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
+ * Common Geo Registry Adapter(tm) is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
  *
- * Common Geo Registry Adapter(tm) is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * Common Geo Registry Adapter(tm) is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with Common Geo Registry Adapter(tm).  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Common Geo Registry Adapter(tm). If not, see
+ * <http://www.gnu.org/licenses/>.
  */
 package org.commongeoregistry.adapter;
 
@@ -136,31 +137,40 @@ public class Term implements Serializable
     {
       String code = termObj.get(Term.JSON_CODE).getAsString();
       LocalizedValue label = LocalizedValue.fromJSON(termObj.get(Term.JSON_LOCALIZED_LABEL).getAsJsonObject());
-      LocalizedValue description = LocalizedValue.fromJSON(termObj.get(Term.JSON_LOCALIZED_DESCRIPTION).getAsJsonObject());
+
+      LocalizedValue description = new LocalizedValue(null);
+
+      if (termObj.has(Term.JSON_LOCALIZED_DESCRIPTION) && !termObj.get(Term.JSON_LOCALIZED_DESCRIPTION).isJsonNull())
+      {
+        description = LocalizedValue.fromJSON(termObj.get(Term.JSON_LOCALIZED_DESCRIPTION).getAsJsonObject());
+      }
 
       Term term = new Term(code, label, description);
 
-      JsonElement children = termObj.get(Term.JSON_CHILDREN);
-
-      if (children != null && !children.isJsonNull() && children.isJsonArray())
+      if (termObj.has(Term.JSON_CHILDREN))
       {
-        JsonArray childrenArray = children.getAsJsonArray();
+        JsonElement children = termObj.get(Term.JSON_CHILDREN);
 
-        for (JsonElement jsonElement : childrenArray)
+        if (children != null && !children.isJsonNull() && children.isJsonArray())
         {
-          if (jsonElement.isJsonObject())
-          {
-            JsonObject childTermObj = jsonElement.getAsJsonObject();
+          JsonArray childrenArray = children.getAsJsonArray();
 
-            Term childTerm = Term.fromJSON(childTermObj);
-            term.addChild(childTerm);
+          for (JsonElement jsonElement : childrenArray)
+          {
+            if (jsonElement.isJsonObject())
+            {
+              JsonObject childTermObj = jsonElement.getAsJsonObject();
+
+              Term childTerm = Term.fromJSON(childTermObj);
+              term.addChild(childTerm);
+            }
           }
         }
       }
 
       return term;
     }
-    
+
     return null;
   }
 
