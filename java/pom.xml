@@ -3,7 +3,7 @@
 	
 	<groupId>com.cgr.adapter</groupId>
 	<artifactId>cgradapter</artifactId>
-	<version>0.17.5</version>
+	<version>0.17.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	
 	<name>cgradapter</name>
