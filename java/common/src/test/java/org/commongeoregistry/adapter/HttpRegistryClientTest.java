@@ -3,23 +3,25 @@
  *
  * This file is part of Common Geo Registry Adapter(tm).
  *
- * Common Geo Registry Adapter(tm) is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
+ * Common Geo Registry Adapter(tm) is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
  *
- * Common Geo Registry Adapter(tm) is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * Common Geo Registry Adapter(tm) is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with Common Geo Registry Adapter(tm).  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Common Geo Registry Adapter(tm). If not, see
+ * <http://www.gnu.org/licenses/>.
  */
 package org.commongeoregistry.adapter;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,7 +62,7 @@ public class HttpRegistryClientTest
     req1Array.add(state.toJSON());
 
     String organizationCode = "";
-    
+
     HierarchyType locatedIn = MetadataFactory.newHierarchyType("LocatedIn", new LocalizedValue("LOCATED_IN_LABEL"), new LocalizedValue("LOCATED_IN_DESCRIPTION"), organizationCode, registry);
 
     JsonArray req2Array = new JsonArray();
@@ -334,7 +336,7 @@ public class HttpRegistryClientTest
     /*
      * Invoke method
      */
-    ChildTreeNode node = client.getChildGeoObjects(pOne.getUid(), pOne.getType().getCode(), new String[] { TestFixture.DISTRICT }, false);
+    ChildTreeNode node = client.getChildGeoObjects(pOne.getUid(), pOne.getType().getCode(), new String[] { TestFixture.DISTRICT }, false, new Date());
 
     /*
      * Validate response
@@ -349,10 +351,10 @@ public class HttpRegistryClientTest
     Map<String, String> params = connector.getParams();
 
     Assert.assertNotNull(params);
-    Assert.assertEquals(4, params.size());
+    Assert.assertEquals(5, params.size());
 
-    Assert.assertTrue(params.containsKey(RegistryUrls.GEO_OBJECT_GET_CHILDREN_PARAM_PARENTID));
-    Assert.assertEquals(pOne.getUid(), params.get(RegistryUrls.GEO_OBJECT_GET_CHILDREN_PARAM_PARENTID));
+    Assert.assertTrue(params.containsKey(RegistryUrls.GEO_OBJECT_GET_CHILDREN_PARAM_PARENTCODE));
+    Assert.assertEquals(pOne.getUid(), params.get(RegistryUrls.GEO_OBJECT_GET_CHILDREN_PARAM_PARENTCODE));
 
     Assert.assertTrue(params.containsKey(RegistryUrls.GEO_OBJECT_GET_CHILDREN_PARAM_PARENT_TYPE_CODE));
     Assert.assertEquals(pOne.getType().getCode(), params.get(RegistryUrls.GEO_OBJECT_GET_CHILDREN_PARAM_PARENT_TYPE_CODE));
@@ -372,7 +374,7 @@ public class HttpRegistryClientTest
      */
     MockHttpConnector connector = new MockHttpConnector();
     HttpRegistryClient client = new HttpRegistryClient(connector);
-    client.getChildGeoObjects(null, "foo", new String[] { "Test" }, true);
+    client.getChildGeoObjects(null, "foo", new String[] { "Test" }, true, new Date());
   }
 
   @Test(expected = RequiredParameterException.class)
@@ -383,7 +385,7 @@ public class HttpRegistryClientTest
      */
     MockHttpConnector connector = new MockHttpConnector();
     HttpRegistryClient client = new HttpRegistryClient(connector);
-    client.getChildGeoObjects("Abc", null, new String[] { "Test" }, true);
+    client.getChildGeoObjects("Abc", null, new String[] { "Test" }, true, new Date());
   }
 
   @Test
@@ -427,7 +429,7 @@ public class HttpRegistryClientTest
     /*
      * Invoke method
      */
-    ParentTreeNode node = client.getParentGeoObjects(cOne.getUid(), cOne.getType().getCode(), new String[] { TestFixture.DISTRICT }, false);
+    ParentTreeNode node = client.getParentGeoObjects(cOne.getUid(), cOne.getType().getCode(), new String[] { TestFixture.DISTRICT }, false, new Date());
 
     /*
      * Validate response
@@ -442,10 +444,10 @@ public class HttpRegistryClientTest
     Map<String, String> params = connector.getParams();
 
     Assert.assertNotNull(params);
-    Assert.assertEquals(4, params.size());
+    Assert.assertEquals(5, params.size());
 
-    Assert.assertTrue(params.containsKey(RegistryUrls.GEO_OBJECT_GET_PARENTS_PARAM_CHILDID));
-    Assert.assertEquals(cOne.getUid(), params.get(RegistryUrls.GEO_OBJECT_GET_PARENTS_PARAM_CHILDID));
+    Assert.assertTrue(params.containsKey(RegistryUrls.GEO_OBJECT_GET_PARENTS_PARAM_CHILDCODE));
+    Assert.assertEquals(cOne.getUid(), params.get(RegistryUrls.GEO_OBJECT_GET_PARENTS_PARAM_CHILDCODE));
 
     Assert.assertTrue(params.containsKey(RegistryUrls.GEO_OBJECT_GET_PARENTS_PARAM_CHILD_TYPE_CODE));
     Assert.assertEquals(cOne.getType().getCode(), params.get(RegistryUrls.GEO_OBJECT_GET_PARENTS_PARAM_CHILD_TYPE_CODE));
@@ -465,7 +467,7 @@ public class HttpRegistryClientTest
      */
     MockHttpConnector connector = new MockHttpConnector();
     HttpRegistryClient client = new HttpRegistryClient(connector);
-    client.getParentGeoObjects(null, "foo", new String[] { "Test" }, true);
+    client.getParentGeoObjects(null, "foo", new String[] { "Test" }, true, new Date());
   }
 
   @Test

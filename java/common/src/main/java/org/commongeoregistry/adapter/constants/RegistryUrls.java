@@ -44,30 +44,36 @@ public class RegistryUrls
   public static final String GEO_OBJECT_NEW_INSTANCE_PARAM_TYPE_CODE = "typeCode";
   
   public static final String GEO_OBJECT_GET_CHILDREN = "geoobject/getchildren";
-  public static final String GEO_OBJECT_GET_CHILDREN_PARAM_PARENTID = "parentId";
+  public static final String GEO_OBJECT_GET_CHILDREN_PARAM_PARENTCODE = "parentCode";
   public static final String GEO_OBJECT_GET_CHILDREN_PARAM_PARENT_TYPE_CODE = "parentTypeCode";
   public static final String GEO_OBJECT_GET_CHILDREN_PARAM_CHILDREN_TYPES = "childrenType";
   public static final String GEO_OBJECT_GET_CHILDREN_PARAM_RECURSIVE = "recursive";
+  public static final String GEO_OBJECT_GET_CHILDREN_PARAM_DATE = "date";
 
   public static final String GEO_OBJECT_GET_PARENTS   = "geoobject/get-parent-geoobjects";
-  public static final String GEO_OBJECT_GET_PARENTS_PARAM_CHILDID = "childId";
+  public static final String GEO_OBJECT_GET_PARENTS_PARAM_CHILDCODE = "childCode";
   public static final String GEO_OBJECT_GET_PARENTS_PARAM_CHILD_TYPE_CODE = "childTypeCode";
   public static final String GEO_OBJECT_GET_PARENTS_PARAM_PARENT_TYPES = "parentTypes";
   public static final String GEO_OBJECT_GET_PARENTS_PARAM_RECURSIVE = "recursive";
+  public static final String GEO_OBJECT_GET_PARENTS_PARAM_DATE = "date";
   
   public static final String GEO_OBJECT_ADD_CHILD     = "geoobject/addchild";
-  public static final String GEO_OBJECT_ADD_CHILD_PARAM_PARENTID = "parentId";
+  public static final String GEO_OBJECT_ADD_CHILD_PARAM_PARENTCODE = "parentCode";
   public static final String GEO_OBJECT_ADD_CHILD_PARAM_PARENT_TYPE_CODE = "parentTypeCode";
-  public static final String GEO_OBJECT_ADD_CHILD_PARAM_CHILDID = "childId";
+  public static final String GEO_OBJECT_ADD_CHILD_PARAM_CHILDCODE = "childCode";
   public static final String GEO_OBJECT_ADD_CHILD_PARAM_CHILD_TYPE_CODE = "childTypeCode";
   public static final String GEO_OBJECT_ADD_CHILD_PARAM_HIERARCHY_CODE = "hierarchyCode";
+  public static final String GEO_OBJECT_ADD_CHILD_PARAM_START_DATE = "startDate";
+  public static final String GEO_OBJECT_ADD_CHILD_PARAM_END_DATE = "endDate";
   
   public static final String GEO_OBJECT_REMOVE_CHILD     = "geoobject/removechild";
-  public static final String GEO_OBJECT_REMOVE_CHILD_PARAM_PARENTID = "parentId";
+  public static final String GEO_OBJECT_REMOVE_CHILD_PARAM_PARENTCODE = "parentCode";
   public static final String GEO_OBJECT_REMOVE_CHILD_PARAM_PARENT_TYPE_CODE = "parentTypeCode";
-  public static final String GEO_OBJECT_REMOVE_CHILD_PARAM_CHILDID = "childId";
+  public static final String GEO_OBJECT_REMOVE_CHILD_PARAM_CHILDCODE = "childCode";
   public static final String GEO_OBJECT_REMOVE_CHILD_PARAM_CHILD_TYPE_CODE = "childTypeCode";
   public static final String GEO_OBJECT_REMOVE_CHILD_PARAM_HIERARCHY_CODE = "hierarchyCode";
+  public static final String GEO_OBJECT_REMOVE_CHILD_PARAM_START_DATE = "startDate";
+  public static final String GEO_OBJECT_REMOVE_CHILD_PARAM_END_DATE = "endDate";
 
   public static final String GEO_OBJECT_GET_UIDS      = "geoobject/get-uids";
   public static final String GEO_OBJECT_GET_UIDS_PARAM_AMOUNT = "amount";

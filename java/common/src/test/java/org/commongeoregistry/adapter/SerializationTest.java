@@ -30,7 +30,6 @@ import org.commongeoregistry.adapter.action.geoobject.UpdateGeoObjectActionDTO;
 import org.commongeoregistry.adapter.action.tree.AddChildActionDTO;
 import org.commongeoregistry.adapter.action.tree.RemoveChildActionDTO;
 import org.commongeoregistry.adapter.constants.GeometryType;
-import org.commongeoregistry.adapter.dataaccess.AttributeClassification;
 import org.commongeoregistry.adapter.dataaccess.ChildTreeNode;
 import org.commongeoregistry.adapter.dataaccess.GeoObject;
 import org.commongeoregistry.adapter.dataaccess.GeoObjectOverTime;
@@ -625,11 +624,13 @@ public class SerializationTest
      * Add Child
      */
     AddChildActionDTO addChild = new AddChildActionDTO();
-    addChild.setParentId(geoObj1.getUid());
+    addChild.setParentCode(geoObj1.getCode());
     addChild.setParentTypeCode(geoObj1.getType().getCode());
-    addChild.setChildId(geoObj2.getUid());
+    addChild.setChildCode(geoObj2.getCode());
     addChild.setChildTypeCode(geoObj2.getType().getCode());
     addChild.setHierarchyCode(geoPolitical.getCode());
+    addChild.setStartDate(new Date());
+    addChild.setEndDate(new Date());
 
     String addChildJson = addChild.toJSON().toString();
     String addChildJson2 = AbstractActionDTO.parseAction(addChildJson).toJSON().toString();
@@ -640,11 +641,13 @@ public class SerializationTest
      * Remove Child
      */
     RemoveChildActionDTO removeChild = new RemoveChildActionDTO();
-    removeChild.setParentId(geoObj1.getUid());
+    removeChild.setParentCode(geoObj1.getCode());
     removeChild.setParentTypeCode(geoObj1.getType().getCode());
-    removeChild.setChildId(geoObj2.getUid());
+    removeChild.setChildCode(geoObj2.getCode());
     removeChild.setChildTypeCode(geoObj2.getType().getCode());
     removeChild.setHierarchyCode(geoPolitical.getCode());
+    removeChild.setStartDate(new Date());
+    removeChild.setEndDate(new Date());
 
     String removeChildJson = removeChild.toJSON().toString();
     String removeChildJson2 = AbstractActionDTO.parseAction(removeChildJson).toJSON().toString();
