@@ -30,7 +30,9 @@ public enum GeometryType
   
   MULTILINE(),
   
-  MULTIPOLYGON();
+  MULTIPOLYGON(),
+  
+  MIXED();
   
   private GeometryType()
   {
